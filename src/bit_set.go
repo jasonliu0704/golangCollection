@@ -1,5 +1,6 @@
 //package BitSet
 // thread safe 
+// This is a dynanmic bitset that can expand
 
 package bitset
 
@@ -11,11 +12,13 @@ type BitSet struct {
 	blocks []uint64
 }
 
-func NewBitSet() (*BitSet) {
-	return new(BitSet)
+func NewBitSet(size int) (*BitSet) {
+	return &BitSet{
+		blocks: make([]uint64, size),
+	}
 }
 
-func (bs *BitSet) check(position int) (bool) {
+func (bs *BitSet) Check(position int) (bool) {
 	// figure out the block chunk first
 	block_num := position/64
 	bs.checkBlocks(block_num)
@@ -23,7 +26,7 @@ func (bs *BitSet) check(position int) (bool) {
 	return ((1 << uint(position - block_num * 64)) & bs.blocks[block_num]) > 0
 }
 
-func (bs *BitSet) set(position int) {
+func (bs *BitSet) Set(position int) {
 	// figure out the block chunk first
 	block_num := position/64
 	bs.checkBlocks(block_num)
@@ -40,12 +43,12 @@ func (bs *BitSet) checkBlocks(blockNum int){
 
 /*
 func main(){
-	bs := NewBitSet()
-	bs.set(100)
-	bs.set(0)
-	fmt.Println(bs.check(100))
-	fmt.Println(bs.check(200))
-	bs.set(0)
-	fmt.Println(bs.check(0))
+	bs := NewBitSet(0)
+	bs.Set(100)
+	bs.Set(0)
+	fmt.Println(bs.Check(100))
+	fmt.Println(bs.Check(200))
+	bs.Set(0)
+	fmt.Println(bs.Check(0))
 }
 */
