@@ -2,6 +2,7 @@ package WorkerPool
 
 import time
 import context
+import golang.org/x/sync/semaphore
 
 // define generic job type
 type JobType func(workload interface{}) (interface{})
@@ -59,7 +60,7 @@ type interface WorkerPoolSemaphore {
   ctx Context
 }
 
-func NewWorkerPoolSemaphore(int num) &NewWorkerPoolSemaphore {
+func NewWorkerPoolSemaphore(num int) &NewWorkerPoolSemaphore {
   return &WorkerPoolSemaphore{
     num,
     semaphore.NewWeighted(int64(num)),
