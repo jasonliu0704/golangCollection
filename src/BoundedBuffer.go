@@ -24,8 +24,8 @@ func NewBuffer(size int) {
   return &BoundedBuffer{
     sync.Mutex{},
     sync.Mutex{},
-    semaphore.NewWeighted(uint64(0)),
     semaphore.NewWeighted(uint64(size)),
+    semaphore.NewWeighted(uint64(0)),
     [size]byte,
     0,
     0,
